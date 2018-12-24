@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define vertexSize 10
 
@@ -21,6 +23,7 @@ typedef struct adjList adjList;
 typedef struct graphStruct graphStruct;
 
 graphStruct *graph;
+
 
 graphStruct *initGraph(int vertex) {
     graphStruct *graph = malloc(sizeof(graphStruct));
@@ -117,6 +120,22 @@ void adjMatrix(graphStruct *graph) {
     matrixPrint();
 }
 
+void centrality(graphStruct *graph) {
+    int count, vertex = vertexSize;
+    for (int i = 0; i < vertexSize; ++i) {
+        count = 0;
+        adjNode *node = graph->array[i].head;
+        while (node != NULL) {
+            count++;
+            node = node->next;
+        }
+        printf("Degree centrality score of %s is: %d\n Standartized Score is: %d/%d", graph->array[i].name, count,
+               count, vertex - 1);
+        puts("\n------------------");
+    }
+}
+
+
 int main() {
     graph = initGraph(10);
     addEdge(graph, "cem", "ferit", 0);
@@ -153,7 +172,8 @@ int main() {
     addEdge(graph, "ilke", "jale", 8);
     addEdge(graph, "jale", "ilke", 9);
 
-    adjMatrix(graph);
+//    adjMatrix(graph);
 //    printGraph(graph);
+    centrality(graph);
     return 0;
 }
